@@ -1,4 +1,4 @@
-import React, { Component } from  'react';
+import React, { Component } from 'react';
 import config from '../config'
 import BookmarksContext from '../BookmarksContext';
 import './AddBookmark.css';
@@ -138,5 +138,6 @@ class AddBookmark extends Component {
     );
   }
 }
+
 
 export default AddBookmark;
