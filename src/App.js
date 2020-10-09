@@ -1,36 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import AddBookmark from './AddBookmark/AddBookmark';
+import EditBookmark from './EditBookmark/EditBookmark';
 import BookmarkList from './BookmarkList/BookmarkList';
 import BookmarksContext from './BookmarksContext';
 import Nav from './Nav/Nav';
 import config from './config';
 import './App.css';
-import Rating from './Rating/Rating';
 
-// const bookmarks = [
-// {
-//   id: 0,
-//   title: 'Google',
-//   url: 'http://www.google.com',
-//   rating: '3',
-//   desc: 'Internet-related services and products.'
-// },
-// {
-//   id: 1,
-//   title: 'Thinkful',
-//   url: 'http://www.thinkful.com',
-//   rating: '5',
-//   desc: '1-on-1 learning to accelerate your way to a new high-growth tech career!'
-// },
-// {
-//   id: 2,
-//   title: 'Github',
-//   url: 'http://www.github.com',
-//   rating: '4',
-//   desc: 'brings together the world\'s largest community of developers.'
-// }
-// ];
 
 class App extends Component {
   state = {
@@ -60,6 +37,13 @@ class App extends Component {
     })
   }
 
+  updateBookmark = updatedBookmark => {
+    this.setState({
+      bookmarks: this.state.bookmarks.map(bm =>
+        (bm.id !== updatedBookmark.id) ? bm : updatedBookmark)
+    })
+  }
+
   componentDidMount() {
     fetch(config.API_ENDPOINT, {
       method: 'GET',
@@ -83,6 +67,7 @@ class App extends Component {
       bookmarks: this.state.bookmarks,
       addBookmark: this.addBookmark,
       deleteBookmark: this.deleteBookmark,
+      updateBookmark: this.updateBookmark,
     }
     return (
       <main className='App'>
@@ -95,13 +80,16 @@ class App extends Component {
               component={AddBookmark}
             />
             <Route
+              path='/edit-bookmark/:bookmarkId'
+              component={EditBookmark}
+            />
+            <Route
               exact
               path='/'
               component={BookmarkList}
             />
           </div>
         </BookmarksContext.Provider>
-        <Rating value={5} />
       </main>
 
     );
